@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} My Courses {% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="form-control module">
+            <h1 class="text-primary">My Courses</h1>
+            {% for course in object_list %}
+                <div class="course-info mt-2 border border-2 mt-2 p-3">
+                    <h3 class=" text-danger p-2">{{ course.title }}</h3>
+                    <h5>
+                        <a href="{% url 'course_edit' course.id %}" class="btn btn-success">Edit</a>
+                        <a href="{% url 'course_delete' course.id %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'course_module_update' course.id %}" class="btn btn-secondary">Edit Modules</a>
+                        {% if course.modules.count > 0 %}
+                            <a href="{% url 'module_content_list' course.modules.first.id %}" class="btn btn-primary" >Manage Contents</a>
+                        {% endif %}
+                    </h5>
+                </div>
+            {% empty %}
+                <h5>You have not created any course yet</h5>
+            {% endfor %}
+        </div>
+        <div class="mt-2">
+            <h5>
+                <a href="{% url 'course_create' %}" class="button btn-success btn">Create New Course</a>
+            </h5>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+{% block css %}
+    <style>
+        .select {
+            background: RGB(55, 52, 52);
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <h1 class="bg-secondary text-white p-2" style="margin-top: -4px">
+        {% if module.title %}{{ module.title|title }}{% else %} {{ object.title|title }}{% endif %}</h1>
+    <div class="container-fluid" style="margin-top: -8px">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 contents">
+                    <a href="/"
+                       class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Modules</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-white"
+                        id="modules">
+                        {% for m in object.modules.all %}
+                            <li data-id="{{ m.id }}"{% if m == module %} class="select nav-item" {% else %}
+                                class="no-select nav-item" {% endif %}>
+                                <a href="{% url 'student_course_detail_module' object.id m.id %}"
+                                   class="text-decoration-none" style="color: white">
+                            <span class="p-2" style="color: RGB(135, 130, 130)">
+                                Module <span class="order p-2">{{ m.order|add:1 }}</span>
+                            </span>
+                                    <br>
+                                    <i class=" m-2">{{ m.title }}</i>
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li>No Modules yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col py-3">
+                <div class="module container">
+                    {% cache 600 module_contents module %}
+                        {% for content in module.contents.all %}
+                            {% with item=content.item %}
+                                <h2>{{ item.title }}</h2>
+                                {{ item.render }}
+                            {% endwith %}
+                        {% empty %}
+                            <h2>No Contents are over there</h2>
+                        {% endfor %}
+                    {% endcache %}
+                    {#                    {% for content in module.contents.all %}#}
+                    {#                        {% with item=content.item %}#}
+                    {#                            <h2>{{ item.title }}</h2>#}
+                    {#                            {{ item.render }}#}
+                    {#                        {% endwith %}#}
+                    {#                    {% empty %}#}
+                    {#                        <h2>No Contents are over there</h2>#}
+                    {#                    {% endfor %}#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

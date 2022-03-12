@@ -1,0 +1,55 @@
+<div class=" border border-2 p-3" style="background-color: RGB(247, 187, 216)">
+    <h3>
+        {% if subject %}
+            {{ subject.title }} courses
+        {% else %}
+            All Courses
+        {% endif %}
+    </h3>
+</div>
+<div class="container-fluid">
+    <div class="row flex-nowrap ">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 bg-secondary">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline text-center">Subjects</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li {% if not subject %} class="selected"{% endif %} >
+                        <a href="{% url 'course_list' %}" class="btn btn-dark" style="width: 180px">All</a>
+                    </li>
+                    {% for s in subjects %}
+                        <li {% if subject == s %} class="selected" {% endif %}>
+                            <a href="{% url 'course_list_subject' s.slug %}"
+                               class="text-dark btn btn-dark mt-1 text-white" style="width: 180px">
+                                <b>{{ s.title }}</b>
+                                <br>
+                                <span class="">{{ s.total_courses }} Courses</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class=" col">
+            <div class="container modules border border-2 p-3 mt-4">
+                {% for course in courses %}
+                    {% with subject=course.subject %}
+                        <h3><a href="{% url 'course_detail' course.slug %}" class="text-success text-decoration-none fs-2" >
+                            {{ course.title|title }}
+                        </a></h3>
+                        <p>
+                            <a href="{% url 'course_list_subject' subject.slug %}" class="text-success text-decoration-none fs-3">
+                                {{ subject }}:
+                            </a>
+                            <b>
+                                {{ course.total_modules }} modules.
+                                Instructor: {{ course.owner.get_full_name }}
+                            </b>
+                        </p>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

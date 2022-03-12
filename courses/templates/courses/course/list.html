@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if subject %}
+        {{ subject.title }} courses
+    {% else %}
+        All Courses
+    {% endif %}
+{% endblock %}
+{% block body %}
+    {% include 'sidebar.html' %}
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}EDUCA{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'Bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <link href="{% static 'Bootstrap/css/style.css' %}" rel="stylesheet">
+    {#Navbar #}
+    {% include 'navbar.html' %}
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<style>
+    .selected {
+        background-color: red;
+    }
+
+    .selected a {
+        color: white;
+    }
+
+    .no-select a {
+        color: black;
+    }
+</style>
+{% block body %}
+
+{% endblock %}
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="{% static 'Bootstrap/js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'Bootstrap/jquery/jquery-3.6.0.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+        integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        {% block domready %}
+        {% endblock %}
+    })
+</script>
+</body>
+</html>
